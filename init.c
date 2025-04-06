@@ -6,22 +6,27 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:17:48 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/06 20:18:42 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/06 22:11:10 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	assign_fork(t_philo *philo, t_fork *fork, int i)
+static void	assign_fork(t_philo *philo, t_fork *fork, int i)
 {
 	int	philo_nbr;
 
 	philo_nbr = philo->table->philo_nbr;
-	philo->right_fork = &fork[i];
-	philo->left_fork = &fork[(i + 1) % philo_nbr];
+	philo->left_fork = &fork[i];
+	philo->right_fork = &fork[(i + 1) % philo_nbr];
+	if (philo->id % 2 == 0)
+	{
+		philo->right_fork = &fork[i];
+		philo->left_fork = &fork[(i + 1) % philo_nbr];
+	}
 }
 
-void	philo_init(t_table *table)
+static void	philo_init(t_table *table)
 {
 	int	i;
 	t_philo	*philo;
@@ -37,7 +42,6 @@ void	philo_init(t_table *table)
 		assign_fork(philo, table->forks, i);
 		i++;
 	}
-	
 }
 
 void	data_init(t_table *table)
@@ -53,5 +57,5 @@ void	data_init(t_table *table)
 		table->forks[i].id = i;
 		i++;
 	}
-	philo_init(&table);
+	philo_init(table);
 }

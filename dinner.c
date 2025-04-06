@@ -1,27 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   dinner.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/06 16:47:55 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/06 22:38:11 by ylabser          ###   ########.fr       */
+/*   Created: 2025/04/06 22:22:03 by ylabser           #+#    #+#             */
+/*   Updated: 2025/04/06 22:47:24 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int ac, char **av)
+static void	*dinner_simmulation(void *arg)
+{}
+
+static void	one_philo(t_table *table)
+{}
+
+void	dinner_start(t_table	*table)
 {
-	if (ac == 5 || ac == 6)
-	{
-		t_table	table;
-		
-		parse_inpute(&table, av);
-		data_init(&table);
-		dinner_start(&table);
-	}
+	int	i;
+
+	i = 0;
+	if (table->forks == 0)
+		return ;
+	else if (table->philo_nbr == 1)
+		one_philo(table);
 	else
-		error_exit("Wrong input.");
+	{
+		while (i < table->philo_nbr)
+		{
+			if (pthread_create(&table->philo[i].pthreads_id , NULL, (void *)dinner_simmulation, &table->philo[i]))
+				error_exit("Error Creat thread.");
+			i++;
+		}
+	}
 }
