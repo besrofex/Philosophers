@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:17:48 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/06 22:11:10 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/07 15:38:56 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	assign_fork(t_philo *philo, t_fork *fork, int i)
 
 static void	philo_init(t_table *table)
 {
-	int	i;
+	int		i;
 	t_philo	*philo;
 
 	i = 0;
@@ -47,7 +47,9 @@ static void	philo_init(t_table *table)
 void	data_init(t_table *table)
 {
 	int	i;
+	
 	i = 0;
+	table->threads_ready = false;
 	table->philo = safe_malloc(sizeof(t_philo) * table->philo_nbr);
 	table->forks = safe_malloc(sizeof(t_fork) * table->philo_nbr);
 	while (i < table->philo_nbr)

@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:19:53 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/06 18:15:32 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/07 15:03:38 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ static long	ft_atol(char *str)
 	i = 0;
 	nbr = 0;
 	str = valid_input(str);
-	while (is_digit(str[i]))
+	while (str[i])
+	{
+		if (!is_digit(str[i]))
+			error_exit("The input is not a digit.");
 		nbr = nbr * 10 + (str[i++] - '0');
+	}
 	if (nbr > INT_MAX)
 		error_exit("The value is too big.");
 	return (nbr);
