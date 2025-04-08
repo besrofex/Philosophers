@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 16:46:26 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/07 16:39:18 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/08 12:57:03 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILO_H
 
 # include <stdio.h>
+# include <unistd.h>
 # include <stdlib.h>
 # include <pthread.h>
 # include <stdbool.h>
@@ -54,6 +55,7 @@ struct s_table
 	int				someone_died;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	meal_mutex;
 	t_philo    *philo;
 	t_fork     *forks;
 };
