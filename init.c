@@ -6,40 +6,73 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:17:48 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/07 17:48:33 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/12 14:46:33 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	assign_fork(t_philo *philo, t_fork *fork, int i)
+static void print_action(t_philo *philo, char *action)
 {
-	int	philo_nbr;
+    t_table *table;
 
-	philo_nbr = philo->table->philo_nbr;
-	philo->left_fork = &fork[i];
-	philo->right_fork = &fork[(i + 1) % philo_nbr];
-	if (philo->id % 2 == 0)
-	{
-		philo->right_fork = &fork[i];
-		philo->left_fork = &fork[(i + 1) % philo_nbr];
-	}
+    table = philo->table;
+	pthread_mutex_lock(&table->print_mutex);
+	printf("%ld %d %s\n", get_time() - table->start_dinner, philo->id, action);
+	pthread_mutex_unlock(&table->print_mutex);
 }
 
-static void	philo_init(t_table *table)
+static void *routine(void *data)
+{
+   t_philo	*philo;
+
+   philo = (t_philo *)data;
+	if (philo->id % 2 == 0)
+		ft_usleep(philo->table->time_to_eat);
+   while (get_time() < philo->last_meal_time + philo->table->time_to_die)
+   {
+     	pthread_mutex_lock(&philo->table->fork_mutex[philo->right]);
+	  	print_action(philo, "has taken a fork");
+		pthread_mutex_lock(&philo->table->fork_mutex[philo->left]);
+	  	print_action(philo, "has taken a fork");
+	  	print_action(philo, "is eating");
+	  	pthread_mutex_lock(&philo->table->meal_mutex);
+	  	philo->nbr_meals++;
+	  	philo->last_meal_time = get_time();
+	  	pthread_mutex_unlock(&philo->table->meal_mutex);
+	  	ft_usleep(philo->table->time_to_eat);
+	  	pthread_mutex_unlock(&philo->table->fork_mutex[philo->left]);
+	  	pthread_mutex_unlock(&philo->table->fork_mutex[philo->right]);
+		print_action(philo, "is sleeping");
+		ft_usleep(philo->table->time_to_sleep);
+		print_action(philo, "is thinking");
+   }
+   return (NULL);
+}
+
+static void	creat_philo(t_table *table)
 {
 	int		i;
 	t_philo	*philo;
 
 	i = 0;
+	table->start_dinner = get_time();
 	while (i < table->philo_nbr)
 	{
-		philo = table->philo + i;
+		philo = &table->philo[i];
 		philo->id = i + 1;
+		philo->right = i;
+		philo->left = (i + 1) % table->philo_nbr;
+		pthread_mutex_lock(&table->meal_mutex);
 		philo->nbr_meals = 0;
-		philo->full = false;
+		philo->last_meal_time = get_time();
+		pthread_mutex_unlock(&table->meal_mutex);
 		philo->table = table;
-		assign_fork(philo, table->forks, i);
+		if (pthread_create(&philo->pthreads_id, NULL, routine, philo))
+      	error_exit("Error creating monitor thread.");
+		if (pthread_detach(table->philo[i].pthreads_id))
+			error_exit("failed to detach philo thread");
+		
 		i++;
 	}
 }
@@ -49,16 +82,15 @@ void	data_init(t_table *table)
 	int	i;
 	
 	i = 0;
-	table->threads_ready = false;
-	table->someone_died = 0;
-	table->philo = safe_malloc(sizeof(t_philo) * table->philo_nbr);
-	table->forks = safe_malloc(sizeof(t_fork) * table->philo_nbr);
+	if (pthread_mutex_init(&table->print_mutex, NULL))
+		error_exit("failed init print mutex.");
+	if (pthread_mutex_init(&table->meal_mutex, NULL))
+		error_exit("failed init meal mutex.");
 	while (i < table->philo_nbr)
 	{
-		if (pthread_mutex_init(&table->forks[i].fork, NULL)) // check this (condition if) ??????
+		if (pthread_mutex_init(&table->fork_mutex[i], NULL)) // check this (condition if) ??????
 			error_exit("Error Mutex init.");
-		table->forks[i].id = i;
 		i++;
 	}
-	philo_init(table);
+	creat_philo(table);
 }

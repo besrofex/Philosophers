@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 16:46:26 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/08 12:57:03 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/12 14:56:02 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,67 +14,51 @@
 # define PHILO_H
 
 # include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
 # include <pthread.h>
-# include <stdbool.h>
 # include <limits.h>
 # include <sys/time.h>
 
-typedef struct s_fork t_fork;
 typedef struct s_philo t_philo;
 typedef struct s_table t_table;
 
-struct s_fork
-{
-	pthread_mutex_t	fork;
-	int					id;
-};
-
 struct s_philo
 {
-	int        id;
-	long        nbr_meals;
-	long        last_meal_time;
-	bool        full;
-	t_fork      *left_fork;
-	t_fork		*right_fork;
+	int			id;
+	int			left;
+	int			right;
+	long			nbr_meals;
+	time_t		last_meal_time;
 	t_table		*table;
 	pthread_t	pthreads_id;
 };
 
 struct s_table
 {
-	long        philo_nbr;
-	long        time_to_die;
-	long        time_to_eat;
-	long        time_to_sleep;
-	long        nbr_limit_meals;
-	long			start_dinner;
-	bool			threads_ready;
-	int				someone_died;
+	long					philo_nbr;
+	time_t				time_to_die;
+	time_t				time_to_eat;
+	time_t				time_to_sleep;
+	time_t				nbr_limit_meals;
+	time_t				start_dinner;
+	t_philo				philo[200];
 	pthread_mutex_t	print_mutex;
-	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	fork_mutex[200];
 	pthread_mutex_t	meal_mutex;
-	t_philo    *philo;
-	t_fork     *forks;
 };
 
 // main
 int	main(int ac, char **av);
 
 // utils
-void	error_exit(char *str);
-void	*safe_malloc(size_t byte);
-long	get_time(void); 
+void		error_exit(char *str);
+time_t	get_time(void);
+void		ft_usleep(time_t time);
+void		destroy_mutex(t_table *table);
 
 // init
 void	data_init(t_table *table);
 
 // parsing
 void	parse_inpute(t_table *table, char **args);
-
-// dinner
-void	dinner_start(t_table	*table);
 
 #endif

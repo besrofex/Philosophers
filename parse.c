@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:19:53 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/07 15:03:38 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/12 14:48:44 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,19 @@ static long	ft_atol(char *str)
 void	parse_inpute(t_table *table, char **args)
 {
 	table->philo_nbr = ft_atol(args[1]);
-	table->time_to_die = ft_atol(args[2]) * 1000;
-	table->time_to_eat = ft_atol(args[3]) * 1000;
-	table->time_to_sleep = ft_atol(args[4]) * 1000;
+	table->time_to_die = ft_atol(args[2]);
+	table->time_to_eat = ft_atol(args[3]);
+	table->time_to_sleep = ft_atol(args[4]);
 	if (args[5])
 		table->nbr_limit_meals = ft_atol(args[5]);
 	else
-		table->nbr_limit_meals = -1; //check this && 60ms ???????
+		table->nbr_limit_meals = 0; //check this && 60ms ???????
 }
+
+
+
+/* 
+1) is int ??
+2) check range ??? -----> atol->check limit
+3) init table 
+*/
