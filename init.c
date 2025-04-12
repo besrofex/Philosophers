@@ -6,13 +6,13 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:17:48 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/12 14:46:33 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/12 14:59:57 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void print_action(t_philo *philo, char *action)
+void print_action(t_philo *philo, char *action)
 {
     t_table *table;
 

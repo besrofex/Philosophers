@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 16:46:26 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/12 14:56:02 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/12 15:01:14 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PHILO_H
 
 # include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
 # include <pthread.h>
 # include <limits.h>
 # include <sys/time.h>
@@ -57,6 +59,7 @@ void		destroy_mutex(t_table *table);
 
 // init
 void	data_init(t_table *table);
+void print_action(t_philo *philo, char *action);
 
 // parsing
 void	parse_inpute(t_table *table, char **args);

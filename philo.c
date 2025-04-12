@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 16:47:55 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/12 14:56:11 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/12 15:01:59 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ static void	monitor(t_table *table)
 			pthread_mutex_unlock(&table->meal_mutex);
 			if (get_time() >= last_meal + table->time_to_die)
 			{
-				pthread_mutex_lock(&table->print_mutex);
-				printf("%ld %d died\n", get_time() - table->start_dinner, i + 1);
-				pthread_mutex_unlock(&table->print_mutex);
+				print_action(&table->philo[i], "died");
 				ft_usleep(500);
 				return ;
 			}
