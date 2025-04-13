@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 16:47:55 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/12 15:01:59 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/13 12:09:40 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ static void	monitor(t_table *table)
 
 int	main(int ac, char **av)
 {
+	t_table	table;
+
 	if (ac == 5 || ac == 6)
 	{
-		t_table	table;
-
 		parse_inpute(&table, av);
 		data_init(&table);
 		monitor(&table);
@@ -69,4 +69,5 @@ int	main(int ac, char **av)
 	}
 	else
 		error_exit("./philo n_philo time_to_die time_to_eat time_to_sleep [n_meals].");
+	return (0);
 }

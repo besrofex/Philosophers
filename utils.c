@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:18:42 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/12 14:55:45 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/04/13 12:10:15 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	error_exit(char *str)
 time_t	get_time(void)
 {
 	struct timeval	tv;
+
 	if (gettimeofday(&tv, NULL))
 		error_exit("Gettimeofday failed.");
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
