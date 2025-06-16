@@ -42,10 +42,12 @@ struct s_table
 	time_t			time_to_sleep;
 	time_t			nbr_limit_meals;
 	time_t			start_dinner;
+	int				simulation_stop;
 	t_philo			philo[200];
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	fork_mutex[200];
 	pthread_mutex_t	meal_mutex;
+	pthread_mutex_t	stop_mutex;
 };
 
 // main

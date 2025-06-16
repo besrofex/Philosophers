@@ -48,4 +48,5 @@ void	destroy_mutex(t_table *table)
 	}
 	pthread_mutex_destroy(&table->print_mutex);
 	pthread_mutex_destroy(&table->meal_mutex);
+	pthread_mutex_destroy(&table->stop_mutex);
 }
