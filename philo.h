@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 16:46:26 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/13 12:17:26 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/07/28 17:05:07 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,11 @@ void	print_action(t_philo *philo, char *action);
 
 // parsing
 void	parse_inpute(t_table *table, char **args);
+
+// init utils 
+void	update_meal_time(t_philo *philo);
+int		should_stop(t_philo *philo);
+void	drop_forks(t_philo *philo);
+void	take_forks(t_philo *philo);
 
 #endif

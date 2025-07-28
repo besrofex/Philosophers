@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:18:42 by ylabser           #+#    #+#             */
-/*   Updated: 2025/04/13 12:10:15 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/07/28 18:29:07 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ void	destroy_mutex(t_table *table)
 {
 	int	i;
 
+	i = 0;
+	while (i < table->philo_nbr)
+	{
+		pthread_join(table->philo[i].pthreads_id, NULL);
+		i++;
+	}
 	i = 0;
 	while (i < table->philo_nbr)
 	{
