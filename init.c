@@ -31,20 +31,42 @@ void	print_action(t_philo *philo, char *action)
 static void	*routine(void *data)
 {
 	t_philo	*philo;
+	t_table *table;
 
 	philo = (t_philo *)data;
+	table = philo->table;
+	if (table->philo_nbr == 1) {
+		pthread_mutex_lock(&table->fork_mutex[philo->left]);
+		print_action(philo, "has taken a fork");
+		ft_usleep(table->time_to_die);
+		pthread_mutex_unlock(&table->fork_mutex[philo->left]);
+		return NULL;
+	}
 	if (philo->id % 2 == 0)
-		ft_usleep(philo->table->time_to_eat / 2);
+		ft_usleep(table->time_to_eat / 2);
 	while (!should_stop(philo))
 	{
 		take_forks(philo);
-		update_meal_time(philo);
+
+		// --- Limite individuelle ---
+		pthread_mutex_lock(&table->meal_mutex);
+		if (table->nbr_limit_meals > 0 && philo->nbr_meals >= table->nbr_limit_meals)
+		{
+			pthread_mutex_unlock(&table->meal_mutex);
+			drop_forks(philo);
+			break;
+		}
+		pthread_mutex_unlock(&table->meal_mutex);
+
 		print_action(philo, "is eating");
 		update_meal_time(philo);
-		ft_usleep(philo->table->time_to_eat);
+		ft_usleep(table->time_to_eat);
 		drop_forks(philo);
+
+		if (should_stop(philo)) break;
 		print_action(philo, "is sleeping");
-		ft_usleep(philo->table->time_to_sleep);
+		ft_usleep(table->time_to_sleep);
+		if (should_stop(philo)) break;
 		print_action(philo, "is thinking");
 	}
 	return (NULL);
@@ -71,8 +93,8 @@ static void	creat_philo(t_table *table)
 		philo->table = table;
 		if (pthread_create(&philo->pthreads_id, NULL, routine, philo))
 			error_exit("Error creating philosopher thread.");
-		if (pthread_detach(table->philo[i].pthreads_id))
-			error_exit("Failed to detach philosopher thread");
+		// if (pthread_detach(table->philo[i].pthreads_id))
+		// 	error_exit("Failed to detach philosopher thread");
 		i++;
 	}
 }

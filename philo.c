@@ -15,19 +15,22 @@
 static int	done_eating(t_table *table)
 {
 	int	i;
-	int	n_philo;
+	// int	n_philo;
 
-	n_philo = 0;
+	// n_philo = 0;
 	i = 0;
 	while (i < table->philo_nbr)
 	{
 		pthread_mutex_lock(&table->meal_mutex);
-		if (table->philo[i].nbr_meals >= table->nbr_limit_meals)
-			n_philo++;
+		if (table->philo[i].nbr_meals < table->nbr_limit_meals)
+		{
+			pthread_mutex_unlock(&table->meal_mutex);
+			return (0);
+		}
 		pthread_mutex_unlock(&table->meal_mutex);
 		i++;
 	}
-	return (n_philo == table->philo_nbr);
+	return (1);
 }
 
 static void	stop_simulation(t_table *table)
@@ -68,10 +71,11 @@ static void	monitor(t_table *table)
 
 	while (1)
 	{
-		usleep(1000);
+		usleep(500);
 		if (table->nbr_limit_meals && done_eating(table))
 		{
 			stop_simulation(table);
+			ft_usleep(1000);
 			return ;
 		}
 		i = 0;

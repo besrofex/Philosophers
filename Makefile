@@ -1,5 +1,5 @@
 NAME = philo
-FLAGS = -Wall -Wextra -Werror -fsanitize=thread
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
 CC = cc 
 SRC = philo.c utils.c parse.c init.c init_utils.c
 OBJ = $(SRC:.c=.o)
