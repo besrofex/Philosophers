@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:17:48 by ylabser           #+#    #+#             */
-/*   Updated: 2025/07/28 18:13:15 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/07/29 19:24:43 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,19 @@ static void	*routine(void *data)
 
 	philo = (t_philo *)data;
 	table = philo->table;
-	if (table->philo_nbr == 1) {
+	if (table->philo_nbr == 1)
+	{
 		pthread_mutex_lock(&table->fork_mutex[philo->left]);
 		print_action(philo, "has taken a fork");
 		ft_usleep(table->time_to_die);
 		pthread_mutex_unlock(&table->fork_mutex[philo->left]);
-		return NULL;
+		return (NULL);
 	}
 	if (philo->id % 2 == 0)
 		ft_usleep(table->time_to_eat / 2);
 	while (!should_stop(philo))
 	{
 		take_forks(philo);
-
-		// --- Limite individuelle ---
 		pthread_mutex_lock(&table->meal_mutex);
 		if (table->nbr_limit_meals > 0 && philo->nbr_meals >= table->nbr_limit_meals)
 		{
@@ -57,12 +56,10 @@ static void	*routine(void *data)
 			break;
 		}
 		pthread_mutex_unlock(&table->meal_mutex);
-
 		print_action(philo, "is eating");
 		update_meal_time(philo);
 		ft_usleep(table->time_to_eat);
 		drop_forks(philo);
-
 		if (should_stop(philo)) break;
 		print_action(philo, "is sleeping");
 		ft_usleep(table->time_to_sleep);
@@ -93,8 +90,6 @@ static void	creat_philo(t_table *table)
 		philo->table = table;
 		if (pthread_create(&philo->pthreads_id, NULL, routine, philo))
 			error_exit("Error creating philosopher thread.");
-		// if (pthread_detach(table->philo[i].pthreads_id))
-		// 	error_exit("Failed to detach philosopher thread");
 		i++;
 	}
 }

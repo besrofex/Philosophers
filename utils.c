@@ -6,7 +6,7 @@
 /*   By: ylabser <ylabser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:18:42 by ylabser           #+#    #+#             */
-/*   Updated: 2025/07/28 18:29:07 by ylabser          ###   ########.fr       */
+/*   Updated: 2025/07/29 21:25:56 by ylabser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,16 @@ time_t	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_usleep(time_t time)
+void	ft_usleep(time_t time, t_table)
 {
 	time_t	start;
 
 	start = get_time();
 	while (get_time() < start + time)
+	{
+		if ()
 		usleep(500);
+	}
 }
 
 void	destroy_mutex(t_table *table)
