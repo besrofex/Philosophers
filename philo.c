@@ -38,31 +38,32 @@ static void	stop_simulation(t_table *table)
 	pthread_mutex_unlock(&table->stop_mutex);
 }
 
-static int check_death(t_table *table, int i)
+static int	check_death(t_table *table, int i)
 {
-    time_t last_meal;
-    time_t current_time;
-    int    died;
+	time_t	last_meal;
+	time_t	current_time;
+	int		died;
 
-    pthread_mutex_lock(&table->meal_mutex);
-    last_meal = table->philo[i].last_meal_time;
-    current_time = get_time();
-    died = (current_time - last_meal >= table->time_to_die);
-    pthread_mutex_unlock(&table->meal_mutex);
-    if (died)
-	 {
-        pthread_mutex_lock(&table->stop_mutex);
-        if (!table->simulation_stop)
-		  {
-            pthread_mutex_lock(&table->print_mutex);
-            printf("%ld %d died\n", current_time - table->start_dinner, table->philo[i].id);
-            pthread_mutex_unlock(&table->print_mutex);
-            table->simulation_stop = 1;
-        }
-        pthread_mutex_unlock(&table->stop_mutex);
-        return (1);
-    }
-    return (0);
+	pthread_mutex_lock(&table->meal_mutex);
+	last_meal = table->philo[i].last_meal_time;
+	current_time = get_time();
+	died = (current_time - last_meal >= table->time_to_die);
+	pthread_mutex_unlock(&table->meal_mutex);
+	if (died)
+	{
+		pthread_mutex_lock(&table->stop_mutex);
+		if (!table->simulation_stop)
+		{
+			pthread_mutex_lock(&table->print_mutex);
+			printf("%ld %d died\n", current_time
+				- table->start_dinner, table->philo[i].id);
+			pthread_mutex_unlock(&table->print_mutex);
+			table->simulation_stop = 1;
+		}
+		pthread_mutex_unlock(&table->stop_mutex);
+		return (1);
+	}
+	return (0);
 }
 
 static void	monitor(t_table *table)

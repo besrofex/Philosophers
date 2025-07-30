@@ -48,7 +48,7 @@ static long	ft_atol(char *str)
 		if (!is_digit(str[i]))
 			error_exit("The input is not a digit.");
 		if (nbr > INT_MAX)
-         error_exit("The value is too big.");
+			error_exit("The value is too big.");
 		nbr = nbr * 10 + (str[i++] - '0');
 	}
 	if (nbr > INT_MAX)

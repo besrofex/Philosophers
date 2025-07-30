@@ -20,8 +20,8 @@
 # include <limits.h>
 # include <sys/time.h>
 
-#define MAX_PHILOS 200
-#define MIN_TIME 60
+# define MAX_PHILOS 200
+# define MIN_TIME 60
 
 typedef struct s_philo	t_philo;
 typedef struct s_table	t_table;
