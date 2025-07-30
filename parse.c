@@ -47,6 +47,8 @@ static long	ft_atol(char *str)
 	{
 		if (!is_digit(str[i]))
 			error_exit("The input is not a digit.");
+		if (nbr > INT_MAX)
+         error_exit("The value is too big.");
 		nbr = nbr * 10 + (str[i++] - '0');
 	}
 	if (nbr > INT_MAX)
@@ -58,23 +60,23 @@ void	parse_inpute(t_table *table, char **args)
 {
 	long	meals;
 
-	if (ft_atol(args[1]) < 1 || ft_atol(args[1]) > 200)
-		error_exit("Number of philosophers must be between 1 and 200.");
+	if (ft_atol(args[1]) < 1 || ft_atol(args[1]) > MAX_PHILOS)
+		error_exit("Invalid number of philosophers (out of allowed range).");
 	table->philo_nbr = ft_atol(args[1]);
-	if (ft_atol(args[2]) < 60)
-		error_exit("Time to die must be at least 60 ms.");
+	if (ft_atol(args[2]) < MIN_TIME)
+		error_exit("Time to die too short (below minimum allowed).");
 	table->time_to_die = ft_atol(args[2]);
-	if (ft_atol(args[3]) < 60)
-		error_exit("Time to eat must be at least 60 ms.");
+	if (ft_atol(args[3]) < MIN_TIME)
+		error_exit("Time to eat too short (below minimum allowed).");
 	table->time_to_eat = ft_atol(args[3]);
-	if (ft_atol(args[4]) < 60)
-		error_exit("Time to sleep must be at least 60 ms.");
+	if (ft_atol(args[4]) < MIN_TIME)
+		error_exit("Time to sleep too short (below minimum allowed).");
 	table->time_to_sleep = ft_atol(args[4]);
 	if (args[5])
 	{
 		meals = ft_atol(args[5]);
 		if (meals <= 0)
-			error_exit("Number of meals must be positive.");
+			error_exit("Number of meals must be positive value.");
 		table->nbr_limit_meals = meals;
 	}
 	else

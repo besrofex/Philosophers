@@ -100,7 +100,6 @@ int	main(int ac, char **av)
 		parse_inpute(&table, av);
 		data_init(&table);
 		monitor(&table);
-		// sleep(1);
 		destroy_mutex(&table);
 	}
 	else

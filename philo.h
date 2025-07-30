@@ -20,6 +20,9 @@
 # include <limits.h>
 # include <sys/time.h>
 
+#define MAX_PHILOS 200
+#define MIN_TIME 60
+
 typedef struct s_philo	t_philo;
 typedef struct s_table	t_table;
 
@@ -43,9 +46,9 @@ struct s_table
 	time_t			nbr_limit_meals;
 	time_t			start_dinner;
 	int				simulation_stop;
-	t_philo			philo[200];
+	t_philo			philo[MAX_PHILOS];
 	pthread_mutex_t	print_mutex;
-	pthread_mutex_t	fork_mutex[200];
+	pthread_mutex_t	fork_mutex[MAX_PHILOS];
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	stop_mutex;
 };
@@ -71,5 +74,8 @@ void	update_meal_time(t_philo *philo);
 int		should_stop(t_philo *philo);
 void	drop_forks(t_philo *philo);
 void	take_forks(t_philo *philo);
+
+// routine
+void	*routine(void *data);
 
 #endif

@@ -27,16 +27,13 @@ time_t	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_usleep(time_t time, t_table)
+void	ft_usleep(time_t time)
 {
 	time_t	start;
 
 	start = get_time();
 	while (get_time() < start + time)
-	{
-		if ()
 		usleep(500);
-	}
 }
 
 void	destroy_mutex(t_table *table)
