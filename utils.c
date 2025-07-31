@@ -33,7 +33,7 @@ void	ft_usleep(time_t time)
 
 	start = get_time();
 	while (get_time() < start + time)
-		usleep(500);
+		usleep(50);
 }
 
 void	destroy_mutex(t_table *table)

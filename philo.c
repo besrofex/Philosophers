@@ -72,11 +72,11 @@ static void	monitor(t_table *table)
 
 	while (1)
 	{
-		usleep(500);
+		usleep(50);
 		if (table->nbr_limit_meals && done_eating(table))
 		{
 			stop_simulation(table);
-			ft_usleep(1000);
+			ft_usleep(500);
 			return ;
 		}
 		i = 0;

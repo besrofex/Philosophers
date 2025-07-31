@@ -53,9 +53,6 @@ struct s_table
 	pthread_mutex_t	stop_mutex;
 };
 
-// main
-int		main(int ac, char **av);
-
 // utils
 void	error_exit(char *str);
 time_t	get_time(void);

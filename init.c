@@ -42,10 +42,8 @@ static void	creat_philo(t_table *table)
 		philo->id = i + 1;
 		philo->right = i;
 		philo->left = (i + 1) % table->philo_nbr;
-		pthread_mutex_lock(&table->meal_mutex);
 		philo->nbr_meals = 0;
 		philo->last_meal_time = get_time();
-		pthread_mutex_unlock(&table->meal_mutex);
 		philo->table = table;
 		if (pthread_create(&philo->pthreads_id, NULL, routine, philo))
 			error_exit("Error creating philosopher thread.");

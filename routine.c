@@ -55,6 +55,7 @@ static void	philo_sleep_and_think(t_philo *philo)
 	if (should_stop(philo))
 		return ;
 	print_action(philo, "is thinking");
+	ft_usleep(1);
 }
 
 void	*routine(void *data)
@@ -67,7 +68,7 @@ void	*routine(void *data)
 	if (table->philo_nbr == 1)
 		return (handle_single_philo(philo));
 	if (philo->id % 2 == 0)
-		ft_usleep(table->time_to_eat / 2);
+		ft_usleep(table->time_to_eat);
 	while (!should_stop(philo))
 	{
 		take_forks(philo);
