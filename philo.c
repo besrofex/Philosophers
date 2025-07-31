@@ -76,7 +76,7 @@ static void	monitor(t_table *table)
 		if (table->nbr_limit_meals && done_eating(table))
 		{
 			stop_simulation(table);
-			ft_usleep(500);
+			ft_usleep(10, table);
 			return ;
 		}
 		i = 0;
@@ -84,7 +84,7 @@ static void	monitor(t_table *table)
 		{
 			if (check_death(table, i))
 			{
-				ft_usleep(10);
+				ft_usleep(10, table);
 				return ;
 			}
 			i++;

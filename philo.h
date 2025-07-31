@@ -56,7 +56,7 @@ struct s_table
 // utils
 void	error_exit(char *str);
 time_t	get_time(void);
-void	ft_usleep(time_t time);
+void	ft_usleep(time_t time, t_table *table);
 void	destroy_mutex(t_table *table);
 
 // init

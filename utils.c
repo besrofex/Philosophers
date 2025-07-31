@@ -27,13 +27,22 @@ time_t	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_usleep(time_t time)
+void	ft_usleep(time_t time, t_table *table)
 {
 	time_t	start;
 
 	start = get_time();
 	while (get_time() < start + time)
+	{
+		pthread_mutex_lock(&table->stop_mutex);
+		if (table->simulation_stop)
+		{
+			pthread_mutex_unlock(&table->stop_mutex);
+			break ;
+		}
+		pthread_mutex_unlock(&table->stop_mutex);
 		usleep(50);
+	}
 }
 
 void	destroy_mutex(t_table *table)

@@ -19,7 +19,7 @@ static void	*handle_single_philo(t_philo *philo)
 	table = philo->table;
 	pthread_mutex_lock(&table->fork_mutex[philo->left]);
 	print_action(philo, "has taken a fork");
-	ft_usleep(table->time_to_die);
+	ft_usleep(table->time_to_die, table);
 	pthread_mutex_unlock(&table->fork_mutex[philo->left]);
 	return (NULL);
 }
@@ -43,7 +43,7 @@ static void	philo_eat(t_philo *philo)
 {
 	print_action(philo, "is eating");
 	update_meal_time(philo);
-	ft_usleep(philo->table->time_to_eat);
+	ft_usleep(philo->table->time_to_eat, philo->table);
 }
 
 static void	philo_sleep_and_think(t_philo *philo)
@@ -51,11 +51,11 @@ static void	philo_sleep_and_think(t_philo *philo)
 	if (should_stop(philo))
 		return ;
 	print_action(philo, "is sleeping");
-	ft_usleep(philo->table->time_to_sleep);
+	ft_usleep(philo->table->time_to_sleep, philo->table);
 	if (should_stop(philo))
 		return ;
 	print_action(philo, "is thinking");
-	ft_usleep(1);
+	ft_usleep(1, philo->table);
 }
 
 void	*routine(void *data)
@@ -68,7 +68,7 @@ void	*routine(void *data)
 	if (table->philo_nbr == 1)
 		return (handle_single_philo(philo));
 	if (philo->id % 2 == 0)
-		ft_usleep(table->time_to_eat);
+		ft_usleep(table->time_to_eat, philo->table);
 	while (!should_stop(philo))
 	{
 		take_forks(philo);

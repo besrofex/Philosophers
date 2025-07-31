@@ -51,9 +51,18 @@ static void	creat_philo(t_table *table)
 	}
 }
 
+static void	ft_destroy_init(t_table *table)
+{
+	pthread_mutex_destroy(&table->print_mutex);
+	pthread_mutex_destroy(&table->meal_mutex);
+	pthread_mutex_destroy(&table->stop_mutex);
+	error_exit("Error initializing fork mutex.");
+}
+
 void	data_init(t_table *table)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	if (pthread_mutex_init(&table->print_mutex, NULL))
@@ -65,7 +74,15 @@ void	data_init(t_table *table)
 	while (i < table->philo_nbr)
 	{
 		if (pthread_mutex_init(&table->fork_mutex[i], NULL))
-			error_exit("Error initializing fork mutex.");
+		{
+			j = 0;
+			while (j < i)
+			{
+				pthread_mutex_destroy(&table->fork_mutex[j]);
+				j++;
+			}
+			ft_destroy_init(table);
+		}
 		i++;
 	}
 	creat_philo(table);
